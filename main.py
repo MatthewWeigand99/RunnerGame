@@ -1,10 +1,18 @@
 import pygame
 from sys import exit
 
+def display_score():
+    curr_time = int(pygame.time.get_ticks() / 1000) - start_time
+    score_surface = score_font.render(f'{curr_time}', False, (64, 64, 64))
+    score_rect = score_surface.get_rect(center = (200, 50))
+    screen.blit(score_surface, score_rect)
+    # print(curr_time)
+
 pygame.init()
 
 # Game variable
 game_active = True
+start_time = 0
 
 # Screen dimensions
 SCREEN_WIDTH = 800
@@ -59,6 +67,7 @@ while True:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 snail_rect.left = snail_x_pos
                 game_active = True
+                start_time = int(pygame.time.get_ticks() / 1000)
             
     if game_active:
         # Updates
@@ -67,6 +76,8 @@ while True:
         # pygame.draw.rect(screen, 'White', score_rect)
         # pygame.draw.rect(screen, 'White', score_rect, 10)
         screen.blit(score_surface, score_rect)
+        
+        display_score()
         
         # Snail movement
         snail_rect.x -= 5
